@@ -157,29 +157,29 @@ fi
 #### Start DBT container ####
 echo "------------- Starting marquez container..."
 cd marquez
-sudo bash -x ./docker/up.sh
+sudo bash -x ./docker/up.sh --build
 cd ..
 
 
-# #### Clone dbt-trino-build repository ####
-# echo "------------- Cloning dbt-trino-template repository..."
-# TARGET_DIR=~/dbt-trino-template
-# if [ -d "$TARGET_DIR" ]; then
-#     echo "Directory '$TARGET_DIR' exists. Removing it..."
-#     rm -rf "$TARGET_DIR"
-# fi
+#### Clone dbt-trino-build repository ####
+echo "------------- Cloning dbt-trino-template repository..."
+TARGET_DIR=~/dbt-trino-template
+if [ -d "$TARGET_DIR" ]; then
+    echo "Directory '$TARGET_DIR' exists. Removing it..."
+    rm -rf "$TARGET_DIR"
+fi
 
-# git clone https://github.com/hhtnghia321/dbt-trino-template.git
-# if [ $? -ne 0 ]; then
-#     echo "Error cloning dbt-trino-template repository!"
-#     exit 1
-# else
-#     echo "Successfully cloned dbt-trino-template repository."
-# fi
+git clone https://github.com/hhtnghia321/dbt-trino-template.git
+if [ $? -ne 0 ]; then
+    echo "Error cloning dbt-trino-template repository!"
+    exit 1
+else
+    echo "Successfully cloned dbt-trino-template repository."
+fi
 
-# #### Start DBT container ####
-# echo "------------- Starting DBT container..."
-# sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
+#### Start DBT container ####
+echo "------------- Starting DBT container..."
+sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 
