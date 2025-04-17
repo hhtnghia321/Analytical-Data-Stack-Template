@@ -178,7 +178,7 @@ fi
 #### Start Marquez container ####
 echo "------------- Starting marquez container..."
 cd marquez
-sudo bash -x ./docker/up.sh --build
+sudo bash -x ./docker/up.sh
 cd ..
 
 sudo docker network inspect network_test
