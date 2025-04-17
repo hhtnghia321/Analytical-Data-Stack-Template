@@ -138,28 +138,6 @@ fi
 echo "------------- Starting Trino container..."
 sudo docker compose -f ./trino-build/docker-compose.yml up -d
 
-#### Clone Marquez repository ####
-echo "------------- Cloning marquez repository..."
-TARGET_DIR=~/marquez
-if [ -d "$TARGET_DIR" ]; then
-    echo "Directory '$TARGET_DIR' exists. Removing it..."
-    rm -rf "$TARGET_DIR"
-fi
-
-git clone https://github.com/MarquezProject/marquez.git
-if [ $? -ne 0 ]; then
-    echo "Error cloning marquez repository!"
-    exit 1
-else
-    echo "Successfully cloned marquez repository."
-fi
-
-#### Start DBT container ####
-echo "------------- Starting marquez container..."
-cd marquez
-sudo bash -x ./docker/up.sh --build
-cd ..
-
 
 #### Clone dbt-trino-build repository ####
 echo "------------- Cloning dbt-trino-template repository..."
@@ -181,7 +159,27 @@ fi
 echo "------------- Starting DBT container..."
 sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
+#### Clone Marquez repository ####
+echo "------------- Cloning marquez repository..."
+TARGET_DIR=~/marquez
+if [ -d "$TARGET_DIR" ]; then
+    echo "Directory '$TARGET_DIR' exists. Removing it..."
+    rm -rf "$TARGET_DIR"
+fi
 
+git clone https://github.com/MarquezProject/marquez.git
+if [ $? -ne 0 ]; then
+    echo "Error cloning marquez repository!"
+    exit 1
+else
+    echo "Successfully cloned marquez repository."
+fi
+
+#### Start Marquez container ####
+echo "------------- Starting marquez container..."
+cd marquez
+sudo bash -x ./docker/up.sh --build
+cd ..
 
 sudo docker network inspect network_test
 echo "All tasks completed successfully."
