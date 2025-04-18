@@ -167,7 +167,7 @@ if [ -d "$TARGET_DIR" ]; then
     rm -rf "$TARGET_DIR"
 fi
 
-git clone https://github.com/MarquezProject/marquez.git
+git clone https://github.com/hhtnghia321/marquez.git
 if [ $? -ne 0 ]; then
     echo "Error cloning marquez repository!"
     exit 1
