@@ -159,6 +159,15 @@ fi
 echo "------------- Starting DBT container..."
 sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
+
+#### Start Airflow repository ####
+mkdir Airflow
+cd Airflow
+curl -LfO 'https://airflow.apache.org/docs/apache-airflow/2.1.1/docker-compose.yaml'
+cd ..
+sudo docker compose -f ./Airflow/docker-compose.yml up -d
+
+
 #### Clone Marquez repository ####
 echo "------------- Cloning marquez repository..."
 TARGET_DIR=~/marquez
