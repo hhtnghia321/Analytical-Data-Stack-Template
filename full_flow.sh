@@ -136,7 +136,7 @@ fi
 
 #### Start Trino container ####
 echo "------------- Starting Trino container..."
-sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
+sudo docker compose -f ./trino-build/docker-compose.yml up -d
 
 
 #### Clone dbt-trino-build repository ####
