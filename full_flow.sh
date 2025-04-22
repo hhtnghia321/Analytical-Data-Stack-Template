@@ -157,14 +157,14 @@ fi
 
 #### Start DBT container ####
 echo "------------- Starting DBT container..."
-sudo AIRFLOW_UID=$(id -u) AIRFLOW_GID=$(id -g) docker compose -f ./dbt-trino-template/docker-compose.yml up -d
+sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 #### Start Airflow repository ####
-# AIRFLOW_DIR="Airflow"
+AIRFLOW_DIR="Airflow"
 # mkdir -p "$AIRFLOW_DIR"
 # curl -Lf -o "$AIRFLOW_DIR/docker-compose.yaml" 'https://airflow.apache.org/docs/apache-airflow/2.1.1/docker-compose.yaml'
-sudo docker compose -f "$AIRFLOW_DIR/docker-compose.yaml" up -d
+sudo AIRFLOW_UID=$(id -u) AIRFLOW_GID=$(id -g) docker compose -f "$AIRFLOW_DIR/docker-compose.yaml" up -d
 
 
 #### Clone Marquez repository ####
