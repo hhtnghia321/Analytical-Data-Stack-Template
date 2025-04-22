@@ -161,9 +161,9 @@ sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 #### Start Airflow repository ####
-AIRFLOW_DIR="Airflow"
-mkdir -p "$AIRFLOW_DIR"
-curl -Lf -o "$AIRFLOW_DIR/docker-compose.yaml" 'https://airflow.apache.org/docs/apache-airflow/2.1.1/docker-compose.yaml'
+# AIRFLOW_DIR="Airflow"
+# mkdir -p "$AIRFLOW_DIR"
+# curl -Lf -o "$AIRFLOW_DIR/docker-compose.yaml" 'https://airflow.apache.org/docs/apache-airflow/2.1.1/docker-compose.yaml'
 sudo docker compose -f "$AIRFLOW_DIR/docker-compose.yaml" up -d
 
 
