@@ -66,6 +66,8 @@ x-airflow-common:
       condition: service_healthy
     postgres:
       condition: service_healthy
+  networks:
+      - network_test
 
 services:
   postgres:
@@ -81,6 +83,8 @@ services:
       interval: 5s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   redis:
     image: redis:latest
@@ -92,6 +96,8 @@ services:
       timeout: 30s
       retries: 50
     restart: always
+    networks:
+      - network_test
 
   airflow-webserver:
     <<: *airflow-common
@@ -104,6 +110,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   airflow-scheduler:
     <<: *airflow-common
@@ -114,6 +122,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   airflow-worker:
     <<: *airflow-common
@@ -126,6 +136,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   airflow-init:
     <<: *airflow-common
@@ -136,6 +148,8 @@ services:
       _AIRFLOW_WWW_USER_CREATE: 'true'
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+    networks:
+      - network_test
 
   flower:
     <<: *airflow-common
@@ -148,6 +162,13 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
 volumes:
   postgres-db-volume:
+  
+networks:
+  network_test:
+    name: network_test
+    external: true
