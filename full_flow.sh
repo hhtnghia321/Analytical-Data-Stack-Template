@@ -136,7 +136,7 @@ fi
 
 #### Start Trino container ####
 echo "------------- Starting Trino container..."
-sudo AIRFLOW_UID=$(id -u) AIRFLOW_GID=$(id -g) docker compose -f ./dbt-trino-template/docker-compose.yml up -d
+sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 #### Clone dbt-trino-build repository ####
@@ -157,7 +157,7 @@ fi
 
 #### Start DBT container ####
 echo "------------- Starting DBT container..."
-sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
+sudo AIRFLOW_UID=$(id -u) AIRFLOW_GID=$(id -g) docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 #### Start Airflow repository ####
