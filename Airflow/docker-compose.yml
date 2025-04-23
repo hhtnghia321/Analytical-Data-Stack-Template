@@ -72,6 +72,17 @@ x-airflow-common:
       - network_test
 
 services:
+  docker-socket-setup:
+    image: alpine
+    container_name: docker_socket_permission
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    entrypoint: sh
+    command:
+      - -c
+      - |
+        chmod 666 /var/run/docker.sock
+
   postgres_airflow:
     image: postgres:13
     environment:
