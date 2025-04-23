@@ -64,7 +64,7 @@ x-airflow-common:
   depends_on:
     redis:
       condition: service_healthy
-    postgres:
+    postgres_airflow:
       condition: service_healthy
   networks:
       - network_test
