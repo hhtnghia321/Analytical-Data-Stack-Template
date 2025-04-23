@@ -44,7 +44,7 @@ sudo docker network ls
 echo "------------- Cloning postgres-frame-docker repository..."
 # cd ~/docker-projects || exit  # Make sure to exit if the directory doesn't exist
 # Remove the existing directory if it exists
-TARGET_DIR=~/postgres-frame-docker
+TARGET_DIR=./postgres-frame-docker
 if [ -d "$TARGET_DIR" ]; then
     echo "Directory '$TARGET_DIR' exists. Removing it..."
     rm -rf "$TARGET_DIR"
@@ -91,7 +91,7 @@ sudo docker exec -it postgres psql -U postgres -d trino_test -v schema_name=test
 
 #### Clone second repository ####
 echo "------------- Cloning postgres-destination-build repository..."
-TARGET_DIR=~/postgres-destination-build
+TARGET_DIR=./postgres-destination-build
 if [ -d "$TARGET_DIR" ]; then
     echo "Directory '$TARGET_DIR' exists. Removing it..."
     rm -rf "$TARGET_DIR"
@@ -120,7 +120,7 @@ sudo docker exec -it postgres_2 psql -U postgres_2 -d postgres2 -c "create schem
 
 #### Clone trino-build repository ####
 echo "------------- Cloning trino-build repository..."
-TARGET_DIR=~/trino-build
+TARGET_DIR=./trino-build
 if [ -d "$TARGET_DIR" ]; then
     echo "Directory '$TARGET_DIR' exists. Removing it..."
     rm -rf "$TARGET_DIR"
@@ -141,7 +141,7 @@ sudo docker compose -f ./trino-build/docker-compose.yml up -d
 
 #### Clone dbt-trino-build repository ####
 echo "------------- Cloning dbt-trino-template repository..."
-TARGET_DIR=~/dbt-trino-template
+TARGET_DIR=./dbt-trino-template
 if [ -d "$TARGET_DIR" ]; then
     echo "Directory '$TARGET_DIR' exists. Removing it..."
     rm -rf "$TARGET_DIR"
@@ -169,7 +169,7 @@ AIRFLOW_DIR="Airflow"
 
 #### Clone Marquez repository ####
 echo "------------- Cloning marquez repository..."
-TARGET_DIR=~/marquez
+TARGET_DIR=./marquez
 if [ -d "$TARGET_DIR" ]; then
     echo "Directory '$TARGET_DIR' exists. Removing it..."
     rm -rf "$TARGET_DIR"
