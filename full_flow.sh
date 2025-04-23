@@ -18,6 +18,8 @@ sudo apt update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # # Create Docker group and allow running without sudo
+# echo "------------- Adding user to docker group..."
+# sudo usermod -aG docker $USER 
 # newgrp docker
 
 #### Create Docker network ####
@@ -159,9 +161,6 @@ sudo docker compose -f ./dbt-trino-template/docker-compose.yml up -d
 
 
 #### Start Airflow repository ####
-echo "------------- Adding user to docker group..."
-# default is user of airflow-worker
-sudo usermod -aG docker default
 AIRFLOW_DIR="Airflow"
 # mkdir -p "$AIRFLOW_DIR"
 # curl -Lf -o "$AIRFLOW_DIR/docker-compose.yml" 'https://airflow.apache.org/docs/apache-airflow/2.1.1/docker-compose.yaml'
