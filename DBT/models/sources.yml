@@ -1,0 +1,18 @@
+sources:
+  - name: source_tbl
+    database: postgres
+    schema: testing
+    tables:
+      - name: raw_customers
+
+  - name: source_tbl2
+    database: postgres
+    schema:  testing
+    tables:
+      - name: raw_orders
+
+  - name: source_tbl3
+    database: postgres
+    schema:  testing
+    tables:
+      - name: raw_payments
