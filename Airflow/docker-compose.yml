@@ -78,120 +78,106 @@ x-airflow-common:
   networks:
       - network_test
 
-# services:
-#   docker-socket-setup:
-#     image: alpine
-#     container_name: docker_socket_permission
-#     volumes:
-#       - /var/run/docker.sock:/var/run/docker.sock
-#     entrypoint: sh
-#     command:
-#       - -c
-#       - |
-#         chmod 666 /var/run/docker.sock
 
   postgres_airflow:
-    image: postgres:13
-    environment:
-      POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
-      POSTGRES_DB: airflow
-    volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "airflow"]
-      interval: 5s
-      retries: 5
-    restart: always
-    networks:
-      - network_test
-    
-  redis:
-    image: redis:latest
-    ports:
-      - 6379:6379
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 30s
-      retries: 50
-    restart: always
-    networks:
-      - network_test
-
-  airflow-webserver:
-    <<: *airflow-common
-    command: webserver
-    ports:
-      - 8080:8080
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-    networks:
-      - network_test
-
-  airflow-scheduler:
-    <<: *airflow-common
-    command: scheduler
-    healthcheck:
-      test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-    networks:
-      - network_test
-
-  airflow-worker:
-    <<: *airflow-common
-    build: .
-    command: celery worker
-    healthcheck:
-      test:
-        - "CMD-SHELL"
-        - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-    networks:
-      - network_test
-     
-
-  airflow-init:
-    <<: *airflow-common
-    command: version
-    environment:
-      <<: *airflow-common-env
-      _AIRFLOW_DB_UPGRADE: 'true'
-      _AIRFLOW_WWW_USER_CREATE: 'true'
-      _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
-      _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
-    networks:
-      - network_test
-
-  flower:
-    <<: *airflow-common
-    command: celery flower
-    ports:
-      - 5555:5555
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
-    restart: always
-    networks:
-      - network_test
-
-
-volumes:
-  postgres-db-volume:
-  
-networks:
-  network_test:
-    name: network_test
-    external: true
+     image: postgres:13
+     environment:
+       POSTGRES_USER: airflow
+       POSTGRES_PASSWORD: airflow
+       POSTGRES_DB: airflow
+     volumes:
+       - postgres-db-volume:/var/lib/postgresql/data
+     healthcheck:
+       test: ["CMD", "pg_isready", "-U", "airflow"]
+       interval: 5s
+       retries: 5
+     restart: always
+     networks:
+       - network_test
+ 
+   redis:
+     image: redis:latest
+     ports:
+       - 6379:6379
+     healthcheck:
+       test: ["CMD", "redis-cli", "ping"]
+       interval: 5s
+       timeout: 30s
+       retries: 50
+     restart: always
+     networks:
+       - network_test
+ 
+   airflow-webserver:
+     <<: *airflow-common
+     command: webserver
+     ports:
+       - 8080:8080
+     healthcheck:
+       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
+       interval: 10s
+       timeout: 10s
+       retries: 5
+     restart: always
+     networks:
+       - network_test
+ 
+   airflow-scheduler:
+     <<: *airflow-common
+     command: scheduler
+     healthcheck:
+       test: ["CMD-SHELL", 'airflow jobs check --job-type SchedulerJob --hostname "$${HOSTNAME}"']
+       interval: 10s
+       timeout: 10s
+       retries: 5
+     restart: always
+     networks:
+       - network_test
+ 
+   airflow-worker:
+     <<: *airflow-common
+     command: celery worker
+     healthcheck:
+       test:
+         - "CMD-SHELL"
+         - 'celery --app airflow.executors.celery_executor.app inspect ping -d "celery@$${HOSTNAME}"'
+       interval: 10s
+       timeout: 10s
+       retries: 5
+     restart: always
+     networks:
+       - network_test
+ 
+   airflow-init:
+     <<: *airflow-common
+     command: version
+     environment:
+       <<: *airflow-common-env
+       _AIRFLOW_DB_UPGRADE: 'true'
+       _AIRFLOW_WWW_USER_CREATE: 'true'
+       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
+       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+     networks:
+       - network_test
+ 
+   flower:
+     <<: *airflow-common
+     command: celery flower
+     ports:
+       - 5555:5555
+     healthcheck:
+       test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
+       interval: 10s
+       timeout: 10s
+       retries: 5
+     restart: always
+     networks:
+       - network_test
+ 
+ volumes:
+   postgres-db-volume:
+ 
+ networks:
+   network_test:
+     name: network_test
+     external: true
