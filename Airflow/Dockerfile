@@ -1,9 +1,20 @@
-FROM apache/airflow:2.8.4
+FROM apache/airflow:2.8.4-python3.11
 
-USER root
+RUN pip install --upgrade pip setuptools wheel
 
-RUN apt-get update && apt-get install -y docker.io
+RUN pip install --no-cache-dir \
+    numpy \
+    pandas \
+    flask \
+    dbt-core \
+    dbt-trino \
+    psycopg2-binary
 
-RUN usermod -aG docker airflow
+RUN mkdir -p /root/.dbt
 
-USER airflow
+ENV DBT_PROFILES_DIR=/root/.dbt
+
+RUN mkdir -p /opt/airflow/dbt && \
+    dbt init OCB_Pipeline --skip-profile-setup --project-dir /opt/airflow/dbt
+
+EXPOSE 5000
