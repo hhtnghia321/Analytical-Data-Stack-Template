@@ -79,9 +79,9 @@ sudo docker exec -it postgres_source psql -U postgres -d trino_test -c "create s
 
 #### Copy data files to Postgres container ####
 echo "------------- Copying data files to Postgres container..."
-sudo docker cp ./postgres-frame-docker/raw_payments.txt postgres:/raw_payments.sql
-sudo docker cp ./postgres-frame-docker/raw_orders.txt postgres:/raw_orders.sql
-sudo docker cp ./postgres-frame-docker/raw_customers.txt postgres:/raw_customers.sql
+sudo docker cp ./postgres-frame-docker/raw_payments.txt postgres_source:/raw_payments.sql
+sudo docker cp ./postgres-frame-docker/raw_orders.txt postgres_source:/raw_orders.sql
+sudo docker cp ./postgres-frame-docker/raw_customers.txt postgres_source:/raw_customers.sql
 
 #### Run SQL files in Postgres ####
 echo "------------- Running SQL files in Postgres..."
