@@ -10,9 +10,9 @@ RUN pip install --no-cache-dir \
     dbt-trino \
     psycopg2-binary
 
-RUN mkdir -p /root/.dbt
+RUN mkdir -p /opt/airflow/dbt/dbt_profiles
 
-ENV DBT_PROFILES_DIR=/root/.dbt
+ENV DBT_PROFILES_DIR=/opt/airflow/dbt/dbt_profiles
 
 RUN mkdir -p /opt/airflow/dbt && \
     dbt init OCB_Pipeline --skip-profile-setup --project-dir /opt/airflow/dbt
