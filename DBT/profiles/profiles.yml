@@ -1,0 +1,23 @@
+raffle_shop:
+  outputs:
+    postgres1:
+      type: trino
+      method: none  # optional, one of {none | ldap | kerberos}
+      user: rrkts
+      password: RRKTS  # required if method is ldap or kerberos
+      database: postgres
+      host: trino_db
+      port: 8080
+      schema: testing
+      threads: 4
+    postgres2:
+      type: trino
+      user: rrkts
+      password: RRKTS
+      database: postgres_2
+      host: trino_db
+      port: 8080
+      schema: testing_write
+      threads: 4
+
+  target: postgres1
