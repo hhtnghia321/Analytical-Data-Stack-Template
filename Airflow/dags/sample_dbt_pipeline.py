@@ -15,4 +15,5 @@ with DAG("dbt_run_in_project", schedule_interval=None, default_args=default_args
         tail -f /tmp/dbt_output.log
         """,
         execution_timeout=timedelta(minutes=60),  # Adjust timeout as needed
+        kill_on_failure=True
     )
