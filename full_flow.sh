@@ -74,20 +74,20 @@ until [ "$(sudo docker inspect -f '{{.State.Health.Status}}' postgres)" == "heal
   echo "Waiting for postgres to be healthy..."
   sleep 2
 done
-sudo docker exec -it postgres_source psql -U postgres -c "create database trino_test;"
-sudo docker exec -it postgres_source psql -U postgres -d trino_test -c "create schema testing;"
+sudo docker exec -it postgres psql -U postgres -c "create database trino_test;"
+sudo docker exec -it postgres psql -U postgres -d trino_test -c "create schema testing;"
 
 #### Copy data files to Postgres container ####
 echo "------------- Copying data files to Postgres container..."
-sudo docker cp ./postgres-frame-docker/raw_payments.txt postgres_source:/raw_payments.sql
-sudo docker cp ./postgres-frame-docker/raw_orders.txt postgres_source:/raw_orders.sql
-sudo docker cp ./postgres-frame-docker/raw_customers.txt postgres_source:/raw_customers.sql
+sudo docker cp ./postgres-frame-docker/raw_payments.txt postgres:/raw_payments.sql
+sudo docker cp ./postgres-frame-docker/raw_orders.txt postgres:/raw_orders.sql
+sudo docker cp ./postgres-frame-docker/raw_customers.txt postgres:/raw_customers.sql
 
 #### Run SQL files in Postgres ####
 echo "------------- Running SQL files in Postgres..."
-sudo docker exec -it postgres_source psql -U postgres -d trino_test -v schema_name=testing -f /raw_payments.sql
-sudo docker exec -it postgres_source psql -U postgres -d trino_test -v schema_name=testing -f /raw_orders.sql
-sudo docker exec -it postgres_source psql -U postgres -d trino_test -v schema_name=testing -f /raw_customers.sql
+sudo docker exec -it postgres psql -U postgres -d trino_test -v schema_name=testing -f /raw_payments.sql
+sudo docker exec -it postgres psql -U postgres -d trino_test -v schema_name=testing -f /raw_orders.sql
+sudo docker exec -it postgres psql -U postgres -d trino_test -v schema_name=testing -f /raw_customers.sql
 
 #### Clone second repository ####
 echo "------------- Cloning postgres-destination-build repository..."
