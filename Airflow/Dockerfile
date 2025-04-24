@@ -8,8 +8,8 @@ RUN pip install --no-cache-dir \
     flask \
     dbt-core \
     dbt-trino \
+    openlineage-dbt \
     psycopg2-binary
-
 # RUN mkdir -p /opt/airflow/DBT/dbt_profiles
 
 # ENV DBT_PROFILES_DIR=/opt/airflow/DBT/dbt_profiles
