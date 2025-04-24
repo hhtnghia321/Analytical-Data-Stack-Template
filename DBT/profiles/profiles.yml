@@ -1,4 +1,4 @@
-raffle_shop:
+OCB_Pipeline:
   outputs:
     postgres1:
       type: trino
