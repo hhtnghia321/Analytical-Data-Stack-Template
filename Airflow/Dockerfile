@@ -16,6 +16,6 @@ RUN pip install --no-cache-dir \
 
 # WORKDIR /opt/airflow/DBT
 
-# RUN dbt init OCB_Pipeline --skip-profile-setup
+RUN dbt init OCB_Pipeline --skip-profile-setup --project-dir /opt/airflow/DBT
 
 EXPOSE 5000
