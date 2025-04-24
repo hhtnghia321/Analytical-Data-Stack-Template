@@ -10,7 +10,7 @@ RUN pip install --no-cache-dir \
     dbt-trino \
     psycopg2-binary
 
-RUN mkdir -p /opt/airflow/DBT/dbt_profiles
+# RUN mkdir -p /opt/airflow/DBT/dbt_profiles
 
 # ENV DBT_PROFILES_DIR=/opt/airflow/DBT/dbt_profiles
 
