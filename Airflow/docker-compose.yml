@@ -57,7 +57,7 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
-    DBT_PROFILES_DIR: /opt/dbt_profiles
+    DBT_PROFILES_DIR: /opt/airflow/DBT/dbt_profiles
     OPENLINEAGE_URL: http://marquez-api:5000
     OPENLINEAGE_NAMESPACE: dev
     OPENLINEAGE_DBTRUNNER_TRACER: custom_dbt_tracer.CustomDbtTracer
