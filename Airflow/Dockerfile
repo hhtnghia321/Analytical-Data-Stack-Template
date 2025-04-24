@@ -12,7 +12,7 @@ RUN pip install --no-cache-dir \
 
 RUN mkdir -p /opt/airflow/DBT/dbt_profiles
 
-ENV DBT_PROFILES_DIR=/opt/airflow/dbt/dbt_profiles
+ENV DBT_PROFILES_DIR=/opt/airflow/DBT/dbt_profiles
 
 
 # WORKDIR /opt/airflow/DBT
