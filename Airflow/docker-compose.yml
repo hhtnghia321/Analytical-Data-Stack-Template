@@ -103,6 +103,8 @@ x-airflow-common:
       interval: 5s
       retries: 5
     restart: always
+    networks:
+      - network_test
     
   redis:
     image: redis:latest
@@ -114,6 +116,8 @@ x-airflow-common:
       timeout: 30s
       retries: 50
     restart: always
+    networks:
+      - network_test
 
   airflow-webserver:
     <<: *airflow-common
@@ -126,6 +130,8 @@ x-airflow-common:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   airflow-scheduler:
     <<: *airflow-common
@@ -136,6 +142,8 @@ x-airflow-common:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
   airflow-worker:
     <<: *airflow-common
@@ -149,6 +157,8 @@ x-airflow-common:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
      
 
   airflow-init:
@@ -160,6 +170,8 @@ x-airflow-common:
       _AIRFLOW_WWW_USER_CREATE: 'true'
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
+    networks:
+      - network_test
 
   flower:
     <<: *airflow-common
@@ -172,6 +184,8 @@ x-airflow-common:
       timeout: 10s
       retries: 5
     restart: always
+    networks:
+      - network_test
 
 
 volumes:
