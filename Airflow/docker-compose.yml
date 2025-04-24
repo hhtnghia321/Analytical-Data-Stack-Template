@@ -44,9 +44,9 @@
 version: '3'
 x-airflow-common:
   &airflow-common
-  build: .
-  # image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.1.1}
+  image: ${AIRFLOW_IMAGE_NAME:-apache/airflow:2.8.4-python3.11}
   environment:
+    
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres_airflow/airflow
@@ -57,11 +57,18 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKEND: 'airflow.api.auth.backend.basic_auth'
     _PIP_ADDITIONAL_REQUIREMENTS: ${_PIP_ADDITIONAL_REQUIREMENTS:-}
+    DBT_PROFILES_DIR: /root/.dbt
+    OPENLINEAGE_URL: http://marquez-api:5000
+    OPENLINEAGE_NAMESPACE: dev
+    OPENLINEAGE_DBTRUNNER_TRACER: custom_dbt_tracer.CustomDbtTracer
   volumes:
     - ../Airflow/dags:/opt/airflow/dags
     - ../Airflow/logs:/opt/airflow/logs
     - ../Airflow/plugins:/opt/airflow/plugins
-    - /var/run/docker.sock:/var/run/docker.sock
+    - ../DBT/profiles:/root/.dbt
+    - ../DBT/models:/opt/airflow/dbt/OCB_Pipeline/models
+    - ../DBT/seeds:/opt/airflow/dbt/OCB_Pipeline/seeds
+    - ../DBT/macros:/opt/airflow/dbt/OCB_Pipeline/macros
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     redis:
@@ -71,17 +78,17 @@ x-airflow-common:
   networks:
       - network_test
 
-services:
-  docker-socket-setup:
-    image: alpine
-    container_name: docker_socket_permission
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    entrypoint: sh
-    command:
-      - -c
-      - |
-        chmod 666 /var/run/docker.sock
+# services:
+#   docker-socket-setup:
+#     image: alpine
+#     container_name: docker_socket_permission
+#     volumes:
+#       - /var/run/docker.sock:/var/run/docker.sock
+#     entrypoint: sh
+#     command:
+#       - -c
+#       - |
+#         chmod 666 /var/run/docker.sock
 
   postgres_airflow:
     image: postgres:13
@@ -96,9 +103,7 @@ services:
       interval: 5s
       retries: 5
     restart: always
-    networks:
-      - network_test
-
+    
   redis:
     image: redis:latest
     ports:
@@ -109,8 +114,6 @@ services:
       timeout: 30s
       retries: 50
     restart: always
-    networks:
-      - network_test
 
   airflow-webserver:
     <<: *airflow-common
@@ -123,8 +126,6 @@ services:
       timeout: 10s
       retries: 5
     restart: always
-    networks:
-      - network_test
 
   airflow-scheduler:
     <<: *airflow-common
@@ -135,11 +136,10 @@ services:
       timeout: 10s
       retries: 5
     restart: always
-    networks:
-      - network_test
 
   airflow-worker:
     <<: *airflow-common
+    build: .
     command: celery worker
     healthcheck:
       test:
@@ -149,8 +149,7 @@ services:
       timeout: 10s
       retries: 5
     restart: always
-    networks:
-      - network_test
+     
 
   airflow-init:
     <<: *airflow-common
@@ -161,8 +160,6 @@ services:
       _AIRFLOW_WWW_USER_CREATE: 'true'
       _AIRFLOW_WWW_USER_USERNAME: ${_AIRFLOW_WWW_USER_USERNAME:-airflow}
       _AIRFLOW_WWW_USER_PASSWORD: ${_AIRFLOW_WWW_USER_PASSWORD:-airflow}
-    networks:
-      - network_test
 
   flower:
     <<: *airflow-common
@@ -175,8 +172,7 @@ services:
       timeout: 10s
       retries: 5
     restart: always
-    networks:
-      - network_test
+
 
 volumes:
   postgres-db-volume:
