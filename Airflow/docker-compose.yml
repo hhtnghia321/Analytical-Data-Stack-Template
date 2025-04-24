@@ -146,6 +146,8 @@ services:
       timeout: 10s
       retries: 5
     restart: always
+    tty: true
+    stdin_open: true
     networks:
       - network_test
 
