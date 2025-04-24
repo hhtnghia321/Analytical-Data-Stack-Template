@@ -14,7 +14,10 @@ RUN mkdir -p /opt/airflow/dbt/dbt_profiles
 
 ENV DBT_PROFILES_DIR=/opt/airflow/dbt/dbt_profiles
 
-RUN mkdir -p /opt/airflow/dbt && \
-    dbt init OCB_Pipeline --skip-profile-setup --project-dir /opt/airflow/dbt
+RUN mkdir -p /opt/airflow/dbt 
+
+WORKDIR /opt/airflow/dbt 
+
+RUN dbt init OCB_Pipeline --skip-profile-setup
 
 EXPOSE 5000
