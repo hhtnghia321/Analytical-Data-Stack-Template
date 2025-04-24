@@ -65,10 +65,11 @@ x-airflow-common:
     - ../Airflow/dags:/opt/airflow/dags
     - ../Airflow/logs:/opt/airflow/logs
     - ../Airflow/plugins:/opt/airflow/plugins
-    - ../DBT/profiles:/opt/airflow/dbt/dbt_profiles
-    - ../DBT/models:/opt/airflow/dbt/OCB_Pipeline/models
-    - ../DBT/seeds:/opt/airflow/dbt/OCB_Pipeline/seeds
-    - ../DBT/macros:/opt/airflow/dbt/OCB_Pipeline/macros
+    - ../DBT/profiles:/opt/airflow/DBT/dbt_profiles
+    - ../DBT/models:/opt/airflow/DBT/OCB_Pipeline/models
+    - ../DBT/seeds:/opt/airflow/DBT/OCB_Pipeline/seeds
+    - ../DBT/macros:/opt/airflow/DBT/OCB_Pipeline/macros
+    - ../DBT/macros:/opt/airflow/DBT/OCB_Pipeline/tracer
   user: "${AIRFLOW_UID:-50000}:${AIRFLOW_GID:-50000}"
   depends_on:
     redis:
